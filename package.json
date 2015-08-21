@@ -1,0 +1,10 @@
+{
+  "name": "Node-Social",
+  "version": "0.0.1",
+  "description": "A social network based off node js and MEAN stack",
+  "dependencies": {
+    "bower": "^1.4.1",
+    "express": "^4.13.2",
+    "nodemon": "^1.4.0"
+  }
+}
