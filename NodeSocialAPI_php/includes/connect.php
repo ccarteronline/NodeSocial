@@ -47,15 +47,24 @@
 */
 		}
 		private function getItems ($getType) {
+			header('Content-type: application/json');
 			$this->connectToDB();
-			
 			$getBareBonesItem = mysqli_query($this->connectToDB(), 'SELECT * FROM '.$getType);
 			$rows = array();
 			while ($d = mysqli_fetch_assoc($getBareBonesItem)) {
 				$rows[] = $d;
 			}
 			
-			echo json_encode($rows, JSON_PRETTY_PRINT);
+			if ($getType == 'barebones') {
+				echo json_encode(array_values($rows)[0]);
+			} else if ($getType == 'tasks') {
+				echo json_encode($rows);
+			}
+			
+			//echo json_encode($rows, JSON_FORCE_OBJECT);
+			
+			
+			
 		}
 	}
 ?>

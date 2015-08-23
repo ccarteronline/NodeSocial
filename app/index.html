@@ -5,8 +5,10 @@
 	    <meta name="viewport" content="width=device-width, initial-scale=1">
 		<title>Node Social</title>
 		<link rel="stylesheet" type="text/css" href="../bower_components/bootstrap/dist/css/bootstrap.min.css">
-		<link rel="stylesheet" type="text/css" href="../bower_components/bootstrap/dist/css/bootstrap-theme.min.css">
+		<!--<link rel="stylesheet" type="text/css" href="../bower_components/bootstrap/dist/css/bootstrap-theme.min.css">-->
+		<link rel="stylesheet" type="text/css" href="../bower_components/font-awesome/css/font-awesome.min.css">
 		<link rel="stylesheet" type="text/css" href="css/navigation.css">
+		<link rel="stylesheet" type="text/css" href="css/home.css">
 
 		<script src="../bower_components/jquery/dist/jquery.min.js"></script>
 		<script src="../bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
@@ -19,7 +21,7 @@
 
 	</head>
 	<body>
-		<nav class="navbar navbar-default navbar-static-top navbar-inverse" ng-controller="navigationCtrl">
+		<nav class="navbar navbar-inverse navbar-fixed-top" ng-controller="navigationCtrl">
 		 <div class="container-fluid">
 		    <!-- Brand and toggle get grouped for better mobile display -->
 		    <div class="navbar-header">
@@ -35,8 +37,10 @@
 		    <!-- Collect the nav links, forms, and other content for toggling -->
 		    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
 		      <ul class="nav navbar-nav">
-		        <li class="active"><a href="#">Link <span class="sr-only">(current)</span></a></li>
-		        <li><a href="#">Link</a></li>
+			    <!--<li class="active"><a href="#">About <span class="sr-only">(current)</span></a></li>-->
+		        <li><a href="#">About <span class="sr-only">(current)</span></a></li>
+		        <li><a href="#">Contact</a></li>
+<!--
 		        <li class="dropdown">
 		          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Dropdown <span class="caret"></span></a>
 		          <ul class="dropdown-menu">
@@ -49,15 +53,20 @@
 		            <li><a href="#">One more separated link</a></li>
 		          </ul>
 		        </li>
+-->
 		      </ul>
+<!--
 		      <form class="navbar-form navbar-left" role="search">
 		        <div class="form-group">
 		          <input type="text" class="form-control" placeholder="Search">
 		        </div>
 		        <button type="submit" class="btn btn-default">Submit</button>
 		      </form>
+-->
 		      <ul class="nav navbar-nav navbar-right">
-		        <li><a href="#">Link</a></li>
+		        <li><a href="#">Login</a></li>
+		        <li><a href="#">Sign-up</a></li>
+<!--
 		        <li class="dropdown">
 		          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Dropdown <span class="caret"></span></a>
 		          <ul class="dropdown-menu">
@@ -68,11 +77,64 @@
 		            <li><a href="#">Separated link</a></li>
 		          </ul>
 		        </li>
+-->
 		      </ul>
 		    </div><!-- /.navbar-collapse -->
 		  </div><!-- /.container-fluid -->
 		</nav>
-		<div id="TestObject_1" ng-controller="BareBones_0.0.1">
+		<br/>
+		<br/>
+		<div class="jumbotron" ng-controller="BareBones_0.0.1">
+	      <div class="container">
+	        <h1>{{ mainTitle }}</h1>
+	        <h3><i>V: {{ appVersion }}</i></h3>
+	        <p>{{ description }}</p>
+			<p><a class="btn btn-success btn-lg" href="#" role="button">Learn more »</a></p>
+	      </div>
+	    </div>
+	    
+	    <div class="container">
+			<div class="row">
+				<div class="col-md-4">
+					<!-- <img class="img-circle" src="img/test_1.jpg" alt="Generic placeholder image" width="140" height="140">-->
+					<i class="fa fa-desktop"></i>
+					<span>
+						<h2>Heading</h2>
+						<p>Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui. </p>
+					</span>
+					<p><a class="btn btn-success midButton" href="#" role="button">View details »</a></p>
+				</div>
+				<div class="col-md-4">
+					<!-- <img class="img-circle" src="img/test_1.jpg" alt="Generic placeholder image" width="140" height="140">-->
+					<i class="fa fa-pie-chart"></i>
+					<span>
+						<h2>Heading</h2>
+						<p>Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui. </p>
+					</span>
+					<p><a class="btn btn-success midButton" href="#" role="button">View details »</a></p>
+				</div>
+				<div class="col-md-4">
+					<!--<img class="img-circle" src="img/test_1.jpg" alt="Generic placeholder image" width="140" height="140">-->
+					<i class="fa fa-laptop"></i>
+					<span>
+						<h2>Heading</h2>
+						<p>Donec sed odio dui. Cras justo odio, dapibus ac facilisis in, egestas eget quam. Vestibulum id ligula porta felis euismod semper. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus.</p>
+					</span>
+					
+					<p><a class="btn btn-success midButton" href="#" role="button">View details »</a></p>
+				</div>
+			</div>
+
+			<hr>
+			
+			<footer>
+			<p>© Company 2015</p>
+			</footer>
+	    </div>
+	    
+	
+	    
+		<!--<div id="TestObject_1" ng-controller="BareBones_0.0.1">
 			
 			<h1>{{ mainTitle }}</h1>
 			<h4><i>V: {{ appVersion }}</i></h4>
@@ -87,7 +149,7 @@
 				<br/>
 					{{ description }}
 			</p>
-	</div>
+		</div>-->
 
 	</body>
 </html>

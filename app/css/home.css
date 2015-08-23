@@ -1,0 +1,13 @@
+.col-md-4 {
+	text-align: center;
+}
+.col-md-4 i {
+	font-size: 120px;
+}
+.col-md-4 span {
+	text-align: left;
+}
+.midButton {
+	left:30%;
+	margin: 0 auto;
+}

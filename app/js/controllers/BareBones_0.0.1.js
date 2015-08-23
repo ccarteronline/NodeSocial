@@ -7,12 +7,10 @@ angular.module('Node-Social').controller('BareBones_0.0.1', ['$scope','$http', f
 		.success(function (data, status, headers, config) {
 
 
-			$scope.mainTitle = data[0].title;
-			$scope.appVersion = data[0].version;
+			$scope.mainTitle = data.title;
+			$scope.appVersion = data.version;
 			//$scope.tasks = data.tasks;
-			$scope.description = data[0].description;
-
-			console.log(data[0]);
+			$scope.description = data.description;
 			
 		}).error(function (data, status, headers, config) {
 			console.log(data, status);
