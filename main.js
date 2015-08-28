@@ -9,3 +9,11 @@ app.use(express.static(__dirname + "/app"));
 http.listen(port, function (){
 	console.log('listening on: ' + port);
 });
+
+app.route('/about')
+	.get(function (req, res) {
+		res.redirect('/#/about');
+	});
+	
+
+
