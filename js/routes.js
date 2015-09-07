@@ -13,6 +13,11 @@ angular.module('Node-Social').config(function ($routeProvider, $locationProvider
 		.when('/login', {
 			templateUrl: 'pages/login.html',
 			controller: 'loginCtrl'
+		})
+
+		.when('/signup', {
+			templateUrl: 'pages/signup.html',
+			controller: 'signupCtrl'
 		});
 		
 		$locationProvider.html5Mode(true);
