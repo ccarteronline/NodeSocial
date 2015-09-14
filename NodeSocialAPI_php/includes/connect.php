@@ -26,25 +26,6 @@
 			} else if ($getType == 'tasks') {
 				$this->getItems ($getType);
 			}
-/*
-			$this->connectToDB();
-			
-			$getBareBonesItem = mysqli_query($this->connectToDB(), 'SELECT * FROM barebones');
-			$rows = array();
-			while ($d = mysqli_fetch_assoc($getBareBonesItem)) {
-				$rows[] = $d;
-			}
-						
-			$tasks = mysqli_query($this->connectToDB(), 'SELECT * FROM tasks');
-			$tows = array();
-			while ($r = mysqli_fetch_assoc($tasks)) {
-				$tows[] = $r;
-			}
-			$newObj = json_encode($tows);
-			//$tows = json_encode($tows);
-			$rows[] = $newObj;
-			//echo json_encode($rows);
-*/
 		}
 		private function getItems ($getType) {
 			header('Content-type: application/json');
@@ -60,10 +41,6 @@
 			} else if ($getType == 'tasks') {
 				echo json_encode($rows);
 			}
-			
-			//echo json_encode($rows, JSON_FORCE_OBJECT);
-			
-			
 			
 		}
 	}

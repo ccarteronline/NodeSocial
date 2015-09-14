@@ -14,12 +14,4 @@
 		$bb = new bareBones('tasks');
 	}
 
-/*
-	$bareBones = array('mainTitle' => 'Node Social', 'appVersion' => '0.0.1', 
-		'tasks' => array('-Front end( );', '-Back end( );', '-EyeFaceDB( );', '-Zeta HD_2( );'),
-		'description' => '-This is going to be the front end portion that will GET and POST data.');
-
-	echo json_encode($bareBones);
-*/
-
 ?>

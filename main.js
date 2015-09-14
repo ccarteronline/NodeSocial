@@ -6,7 +6,7 @@ var bodyParser	= require('body-parser');
 var mongoose	= require('mongoose');
 var dbUrl		= 'mongodb://localhost:27017/nodeSocial';
 mongoose.connect(dbUrl);
-var createUsr	= require('./server/models/register');
+var userModel	= require('./server/models/register');
 var crypto = require('crypto');
 var moment = require('moment');
 var _ = require('lodash');
@@ -17,7 +17,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
 app.use('/api', router);
-app.use(express.static(__dirname + ""));
+app.use(express.static(__dirname + ''));
 
 io.on('connection', function (socket) {
 	console.log('A user is on our site!');
@@ -32,7 +32,6 @@ http.listen(port, function (){
 });
 
 //URL routes
-
 app.route('/about').get(function (req, res) {
 	res.redirect('/#/about');
 });
@@ -47,37 +46,68 @@ app.route('/signup').get(function (req, res) {
 
 //register a user
 router.route('/register').post(function (req, res) {
-	var newUser = new createUsr();
+	var newUser = new userModel();
 	newUser.firstName = req.body.firstName,
 	newUser.lastName = req.body.lastName,
 	newUser.email = req.body.email,
 	newUser.password = crypto.createHash('md5').update(req.body.password).digest('hex'),
 	newUser.creationDate = moment().format();
 
-	newUser.save(function (err) {
+	//No blank entries
+	if (_.isEmpty(newUser.firstName) || _.isEmpty(newUser.lastName) 
+		|| _.isEmpty(newUser.email) || _.isEmpty(req.body.password)) {
+			res.json({ message: 'You left blank in the form' });
+	} 
+
+	//Check to see if user already exists
+	userModel.findOne(newUser.email, function (err, usr) {
 		if (err) {
 			res.send(err);
 		} else {
-			res.json({ message: 'successfully registered user!' });
+			res.json(usr);
 		}
 	});
+
+	//if (seeIfUserExists(newUser.email) === true) {
+		//console.log('fount!');
+	//} else {
+		// newUser.save(function (err) {
+		// 	if (err) {
+		// 		res.send(err);
+		// 	} else {
+		// 		res.json({ message: 'successfully registered user!' });
+		// 	}
+		// });
+	//}
+
+
 });
 
 //get all users DELETE THIS! UNLESS YOU WANT TO DISPLAY ALL USERS as well as their password
 //use lodash to pick only certain parts and ignore the password
 router.route('/getUsers').get(function (req, res) {
-	createUsr.find(function (err, usrs) {
+	userModel.find(function (err, usrs) {
 		if (err) {
 			res.send(err);
 		} else {
-
 			var modUser = _.map(usrs, function (u) {
-				return _.pick(u, 'id', 'firstName', 'lastName', 'email', 'creationDate');
-				//return _.omit(u, 'password'); //doesnt work for some reason ?
+				return x_xPusr(u);
 			});
-
 			res.json(modUser);
 		}
 	});
-
 });
+
+router.get('/user/:id', function (req, res) {
+	userModel.findById(req.params.id, function (err, msg) {
+		if (err) {
+			res.send(err);
+		} else {
+			res.json(x_xPusr(msg));
+		}
+	});
+});
+
+function x_xPusr (usr) {
+	return _.pick(usr, 'id', 'firstName', 'lastName', 'email', 'creationDate');
+}

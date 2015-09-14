@@ -6,7 +6,8 @@ var regSchema	= new Schema({
 	lastName: String,
 	email: String,
 	password: String,
-	creationDate: Date
+	creationDate: Date,
+	isActive: false
 	
 });
 
