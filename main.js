@@ -108,6 +108,38 @@ router.get('/user/:id', function (req, res) {
 	});
 });
 
+router.post('/login/', function (req, res) {
+
+	var email = req.body.email;
+	var password = crypto.createHash('md5').update(req.body.password).digest('hex');
+
+	userModel.findOne({ email:email, password: password }, function (err, usr) {
+		if (err) {
+			res.send(err);
+ 
+		} else {
+			if (!usr) {
+				res.json({ message: 'Incorrect email or password.'});
+			} else {
+				//res.json(usr);
+				var newToken = buildUserTokenWith(email, password);
+				res.json({ message: newToken });
+				
+			}
+		}
+	});
+});
+
+function decryptToken (receivedToken) {
+
+};
+
 function x_xPusr (usr) {
 	return _.pick(usr, 'id', 'firstName', 'lastName', 'email', 'creationDate');
-}
+};
+
+function buildUserTokenWith (email, pass){
+	var email = crypto.createHash('md5').update(email).digest('hex');
+    var loginMoment = crypto.createHash('md5').update(moment().format()).digest('hex');
+    return (email + ' '+ pass + ' ' + loginMoment);
+};
