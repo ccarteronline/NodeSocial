@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html ng-app="sampleApp">
+<head>
+    <title>Auth Token Gen</title>
+    <link rel="stylesheet" type="text/css" href="bower_components/bootstrap/dist/css/bootstrap.min.css">
+    <script type="text/javascript" src="bower_components/jquery/dist/jquery.min.js"></script>
+    <script type="text/javascript" src="bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="bower_components/angular/angular.min.js"></script>
+    <script type="text/javascript" src="bower_components/angular-mocks/angular-mocks.js"></script>
+    <script type="text/javascript" src="js/app.js"></script>
+    <script type="text/javascript" src="js/controllers/sampleCtrl.js"></script>
+</head>
+<body>
+    <div ng-controller="SampleCtrl">
+        <div class="container">
+            <h1>Authentication Token Generator!</h1>
+            
+            <form ng-submit="submit()" ng-show="!isLoggedIn">
+                <h3>Please Login Below</h3>
+                <div class="form-group">
+                    <label for="loginemail">Enter your login email</label>
+                    <input type="email" class="form-control" id="loginemail" placeholder="Your Email" required ng-model="email">
+                </div>
+                <div class="form-group">
+                    <label for="loginpass">Enter your password</label>
+                    <input type="password" class="form-control" id="loginpass" placeholder="Password" required ng-model="password">
+                </div>
+
+                <button type="submit" class="btn btn-lg btn-success">Login</button>
+                <br/>
+                <br/>
+                <div ng-if="token" class="alert alert-success" role="alert">
+                    <b>Success! Your token is: </b> {{ token }} <b>Please wait to navigate to control panel.</b>
+                </div>
+
+                <div ng-if="errorMsg" class="alert alert-danger" role="alert">
+                    {{ errorMsg }}
+                </div>
+            </form>
+
+
+            <div class="authContent">
+                {{ authContent }}
+            </div>
+        </div>
+
+    </div>
+</body>
+</html>

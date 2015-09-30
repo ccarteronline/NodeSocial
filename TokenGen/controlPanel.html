@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html ng-app="sampleApp">
+<head>
+    <title>Auth Token Gen</title>
+    <link rel="stylesheet" type="text/css" href="bower_components/bootstrap/dist/css/bootstrap.min.css">
+    <script type="text/javascript" src="bower_components/jquery/dist/jquery.min.js"></script>
+    <script type="text/javascript" src="bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="bower_components/angular/angular.min.js"></script>
+    <script type="text/javascript" src="bower_components/angular-mocks/angular-mocks.js"></script>
+    <script type="text/javascript" src="js/app.js"></script>
+    <script type="text/javascript" src="js/controllers/controlPanel.js"></script>
+    <script type="text/javascript">
+        var config = {
+            headers: {
+                'token': localStorage.getItem('token')
+            }
+        };
+
+        function killToken () {
+            localStorage.removeItem('token');
+            window.location = 'index.html';
+        };
+    </script>
+</head>
+<body>
+    <div ng-controller="SampleCtrl">
+        <div class="container">
+            <h1>Welcome to the control panel!</h1>
+            The following content can only be displayed if you are logged on:
+            <p>{{ allowedContent }}</p>
+
+            <div><a href="#" ng-click="logOut()">Log-off</a></div>
+        </div>
+    </div>
+</body>
+</html>
+
+
+
+
+
+
