@@ -46,17 +46,22 @@ app.route('/signup').get(function (req, res) {
 
 //register a user
 router.route('/register').post(function (req, res) {
+	var errors = false;
 	var newUser = new userModel();
 	newUser.firstName = req.body.firstName,
 	newUser.lastName = req.body.lastName,
 	newUser.email = req.body.email,
 	newUser.password = crypto.createHash('md5').update(req.body.password).digest('hex'),
 	newUser.creationDate = moment().format();
+	newUser.isActive = false;
+	newUser.tokenPiece = null;
+   	newUser.tokenTime = null;
 
 	//No blank entries
 	if (_.isEmpty(newUser.firstName) || _.isEmpty(newUser.lastName) 
 		|| _.isEmpty(newUser.email) || _.isEmpty(req.body.password)) {
 			res.json({ message: 'You left blank in the form' });
+			errors = true;
 	} 
 
 	//Check to see if user already exists
@@ -64,9 +69,22 @@ router.route('/register').post(function (req, res) {
 		if (err) {
 			res.send(err);
 		} else {
-			res.json(usr);
+			res.json({ message: 'A user already has this email address' });
+			
 		}
+		//
+		errors = true;
 	});
+
+	if (errors == false) {
+		newUser.save(function (err) {
+			if (err) {
+				res.send(err);
+			} else {
+				res.json({ message: 'successfully registered user!' });
+			}
+		});
+	}
 
 	//if (seeIfUserExists(newUser.email) === true) {
 		//console.log('fount!');
@@ -113,7 +131,7 @@ router.post('/login/', function (req, res) {
 	var email = req.body.email;
 	var password = crypto.createHash('md5').update(req.body.password).digest('hex');
 
-	userModel.findOne({ email:email, password: password }, function (err, usr) {
+	userModel.findOne({ email: email, password: password }, function (err, usr) {
 		if (err) {
 			res.send(err);
  
@@ -130,16 +148,27 @@ router.post('/login/', function (req, res) {
 	});
 });
 
-function decryptToken (receivedToken) {
-
-};
-
 function x_xPusr (usr) {
-	return _.pick(usr, 'id', 'firstName', 'lastName', 'email', 'creationDate');
+	return _.pick(usr, 'id', 'firstName', 'lastName', 'email', 'creationDate', 'isActive' ,'token_1', 'tokenTime');
 };
 
 function buildUserTokenWith (email, pass){
-	var email = crypto.createHash('md5').update(email).digest('hex');
-    var loginMoment = crypto.createHash('md5').update(moment().format()).digest('hex');
-    return (email + ' '+ pass + ' ' + loginMoment);
+	var newEmail = crypto.createHash('md5').update(email).digest('hex');
+    var userPass = crypto.createHash('md5').update(pass).digest('hex');
+    var loginMoment = moment().format();
+
+    // Push token information to user within the database
+    userModel.findOne({ email: email, password: pass }, function (err, usr) {
+    	if (err) {
+    		return err;
+    	}
+    	// add the new credentials to the user,
+    	// or copy over the ones that already exist
+    	usr.tokenPiece = newEmail;
+    	usr.tokenTime = loginMoment;
+    	usr.save();
+    });
+
+    //
+    return (newEmail + ' '+ userPass + ' ' + loginMoment);
 };
