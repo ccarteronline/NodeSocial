@@ -4,7 +4,7 @@ angular.module('Node-Social').config(function ($routeProvider, $locationProvider
 			templateUrl: 'pages/home.html',
 			controller: 'homeCtrl'
 		})
-		
+
 		.when('/about', {
 			templateUrl: 'pages/about.html',
 			controller: 'aboutCtrl'
@@ -18,7 +18,12 @@ angular.module('Node-Social').config(function ($routeProvider, $locationProvider
 		.when('/signup', {
 			templateUrl: 'pages/signup.html',
 			controller: 'signupCtrl'
+		})
+
+		.when('/control-panel', {
+			templateUrl: 'pages/controlPanel.html',
+			controller: 'controlPanelCtrl'
 		});
-		
+
 		$locationProvider.html5Mode(true);
 });

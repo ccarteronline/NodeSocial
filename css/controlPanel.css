@@ -1,0 +1,25 @@
+.leftImagePanel {
+    width: 300px;
+    text-align: center;
+}
+
+.leftQuickLinksPanel {
+    float: left;
+    width: 300px;
+    margin: 20px 0px 0px 0px;
+}
+
+.feed {
+    float: right;
+    margin:25px 0px 0px 0px;
+    width: 800px;
+}
+.searchInput {
+    width: 500px;
+    float:left;
+    margin:0px 15px 0px 0px;
+}
+.followBtns {
+    margin:6px 0px 0px 0px;
+    float: right;
+}

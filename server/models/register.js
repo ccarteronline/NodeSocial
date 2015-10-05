@@ -10,7 +10,7 @@ var regSchema	= new Schema({
 	isActive: Boolean,
 	tokenPiece: String,
    	tokenTime: Date
-	
+
 });
 
 module.exports = mongoose.model('register', regSchema);

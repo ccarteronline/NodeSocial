@@ -10,17 +10,15 @@
 			$connection = new mysqli($host, $username, $password, $dbName);
 			if($connection){
 				$myConnectionStatus = true;
-				return $connection;				
+				return $connection;
 			} else {
 				die('Cant connect to Database!');
 			}
-			
 		}
 	}
-	
+
 	class bareBones extends dbConnect {
 		public function bareBones ($getType) {
-			
 			if ($getType == 'barebones') {
 				$this->getItems ($getType);
 			} else if ($getType == 'tasks') {
@@ -35,13 +33,13 @@
 			while ($d = mysqli_fetch_assoc($getBareBonesItem)) {
 				$rows[] = $d;
 			}
-			
+
 			if ($getType == 'barebones') {
 				echo json_encode(array_values($rows)[0]);
 			} else if ($getType == 'tasks') {
 				echo json_encode($rows);
 			}
-			
+
 		}
 	}
 ?>
