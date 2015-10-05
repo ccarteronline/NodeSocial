@@ -12,6 +12,7 @@ var moment = require('moment');
 var _ = require('lodash');
 var port = (process.env.PORT || 9000);
 var router = express.Router();
+var resetUserMessage = 'falseAuth';
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
@@ -108,13 +109,15 @@ router.get('/user/:id', function (req, res) {
 	});
 });
 
+// This route will be used for all future requests for the webpage for getting data.
+// this will check for the users token and then display the content accordingly if it is successful.
 router.get('/test-content', function (req, res) {
 	//Authenticate the user before sending in of the correct data
 	authenticateUser(req.headers.token, function (stat) {
 		if (stat) {
 			res.json({ message: 'Authenticated, send data as such'});
 		} else {
-			res.json({ message: 'falseAuth' });
+			res.json({ message: resetUserMessage });
 		}
 	});
 });
