@@ -46,7 +46,8 @@ app.route('/signup').get(function (req, res) {
 
 //register a user
 router.route('/register').post(function (req, res) {
-	var errors = false;
+	var foundUser = false;
+	var msg;
 	var newUser = new userModel();
 	newUser.firstName = req.body.firstName,
 	newUser.lastName = req.body.lastName,
@@ -58,58 +59,39 @@ router.route('/register').post(function (req, res) {
    	newUser.tokenTime = null;
 
 	//No blank entries
-	if (_.isEmpty(newUser.firstName) || _.isEmpty(newUser.lastName) 
+	if (_.isEmpty(newUser.firstName) || _.isEmpty(newUser.lastName)
 		|| _.isEmpty(newUser.email) || _.isEmpty(req.body.password)) {
 			res.json({ message: 'You left blank in the form' });
-			errors = true;
-	} 
-
-	//Check to see if user already exists
-	userModel.findOne(newUser.email, function (err, usr) {
-		if (err) {
-			res.send(err);
-		} else {
-			res.json({ message: 'A user already has this email address' });
-			
-		}
-		//
-		errors = true;
-	});
-
-	if (errors == false) {
-		newUser.save(function (err) {
+	} else {
+		//Check if a user exists already
+		userModel.findOne({ 'email': newUser.email }, function (err, usr) {
 			if (err) {
 				res.send(err);
+			} else if (usr) {
+				res.json({ message: 'A user already has this email address' });
 			} else {
-				res.json({ message: 'successfully registered user!' });
+				newUser.save(function (err) {
+					if (err) {
+						res.send(err);
+					} else {
+						res.json({ message: 'successfully registered user!' });
+					}
+				});
 			}
 		});
-	}
-
-	//if (seeIfUserExists(newUser.email) === true) {
-		//console.log('fount!');
-	//} else {
-		// newUser.save(function (err) {
-		// 	if (err) {
-		// 		res.send(err);
-		// 	} else {
-		// 		res.json({ message: 'successfully registered user!' });
-		// 	}
-		// });
-	//}
-
+	};
 
 });
 
 //get all users DELETE THIS! UNLESS YOU WANT TO DISPLAY ALL USERS as well as their password
 //use lodash to pick only certain parts and ignore the password
-router.route('/getUsers').get(function (req, res) {
+router.get('/getUsers', function (req, res) {
 	userModel.find(function (err, usrs) {
 		if (err) {
 			res.send(err);
 		} else {
 			var modUser = _.map(usrs, function (u) {
-				return x_xPusr(u);
+				return displaySortedUsr(u);
 			});
 			res.json(modUser);
 		}
@@ -121,12 +103,23 @@ router.get('/user/:id', function (req, res) {
 		if (err) {
 			res.send(err);
 		} else {
-			res.json(x_xPusr(msg));
+			res.json(displaySortedUsr(msg));
 		}
 	});
 });
 
-router.post('/login/', function (req, res) {
+router.get('/test-content', function (req, res) {
+	//Authenticate the user before sending in of the correct data
+	authenticateUser(req.headers.token, function (stat) {
+		if (stat) {
+			res.json({ message: 'Authenticated, send data as such'});
+		} else {
+			res.json({ message: 'falseAuth' });
+		}
+	});
+});
+
+router.post('/login', function (req, res) {
 
 	var email = req.body.email;
 	var password = crypto.createHash('md5').update(req.body.password).digest('hex');
@@ -134,27 +127,29 @@ router.post('/login/', function (req, res) {
 	userModel.findOne({ email: email, password: password }, function (err, usr) {
 		if (err) {
 			res.send(err);
- 
+		} else if (!usr) {
+			res.json({ message: 'Incorrect email or password.'});
 		} else {
-			if (!usr) {
-				res.json({ message: 'Incorrect email or password.'});
-			} else {
-				//res.json(usr);
-				var newToken = buildUserTokenWith(email, password);
-				res.json({ message: newToken });
-				
-			}
+			var newToken = buildUserTokenWith(email, password);
+			res.json({ message: newToken });
 		}
 	});
 });
 
-function x_xPusr (usr) {
-	return _.pick(usr, 'id', 'firstName', 'lastName', 'email', 'creationDate', 'isActive' ,'token_1', 'tokenTime');
+router.post('/destory', function (req, res) {
+	mongoose.connect(dbUrl, function (){
+		//Drop the DB
+		mongoose.connection.db.dropDatabase();
+		res.json({ message: 'All the messages and admins dropped in: test' });
+	});
+});
+
+function displaySortedUsr (usr) {
+	return _.pick(usr, 'id', 'firstName', 'lastName', 'email', 'creationDate', 'isActive' ,'token_1', 'tokenPiece', 'tokenTime');
 };
 
 function buildUserTokenWith (email, pass){
 	var newEmail = crypto.createHash('md5').update(email).digest('hex');
-    var userPass = crypto.createHash('md5').update(pass).digest('hex');
     var loginMoment = moment().format();
 
     // Push token information to user within the database
@@ -170,5 +165,29 @@ function buildUserTokenWith (email, pass){
     });
 
     //
-    return (newEmail + ' '+ userPass + ' ' + loginMoment);
+    return (newEmail + pass + loginMoment);
+};
+
+function authenticateUser (token, callback) {
+	var firstPiece = token.substr(0, 32);
+	var passPiece = token.substr(32, 32);
+	var loginDate = token.substr(64,64);
+	loginDate = moment().diff(loginDate, 'minutes');
+	var timeLimit = 90;
+	var preparedUserSearch = {
+		tokenPiece: firstPiece,
+		password: passPiece
+	};
+
+	userModel.findOne(preparedUserSearch, function (err, u) {
+		if (err) {
+			return callback(err);
+		} else if (u === null) {
+			return callback(false);
+		} else if (loginDate <= timeLimit) {
+			return callback(true);
+		} else {
+			return callback(false);
+		}
+	});
 };
