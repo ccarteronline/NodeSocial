@@ -12,7 +12,6 @@ var moment = require('moment');
 var _ = require('lodash');
 var port = (process.env.PORT || 9000);
 var router = express.Router();
-var resetUserMessage = 'falseAuth';
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
@@ -121,7 +120,7 @@ router.get('/test-content', function (req, res) {
 		if (stat) {
 			res.json({ message: 'Authenticated, send data as such'});
 		} else {
-			res.json({ message: resetUserMessage });
+			res.json({ message: false });
 		}
 	});
 });
@@ -179,8 +178,8 @@ function authenticateUser (token, callback) {
 	var firstPiece = token.substr(0, 32);
 	var passPiece = token.substr(32, 32);
 	var loginDate = token.substr(64,64);
-	loginDate = moment().diff(loginDate, 'minutes');
-	var timeLimit = 90;
+	loginDate = moment().diff(loginDate, 'hours');
+	var timeLimit = 24;
 	var preparedUserSearch = {
 		tokenPiece: firstPiece,
 		password: passPiece

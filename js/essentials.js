@@ -3,9 +3,14 @@ var config = {
         'token': localStorage.getItem('token')
     }
 };
+function displayAuthUserNav () {
+    if (localStorage.getItem('token')) {
+        return true;
+    }
+    return false;
+};
 
 function killToken () {
-    alert('logout');
     localStorage.removeItem('token');
     window.location = '/login';
 };
@@ -13,5 +18,6 @@ function killToken () {
 function checkIfUserIsLoggedIn () {
     if (localStorage.getItem('token')) {
         window.location = '../control-panel';
+        isLoggedIn = true;
     }
 };
