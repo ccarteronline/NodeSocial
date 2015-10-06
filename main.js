@@ -51,7 +51,6 @@ app.route('/control-panel').get(function (req, res) {
 //register a user
 router.route('/register').post(function (req, res) {
 	var foundUser = false;
-	var msg;
 	var newUser = new userModel();
 	newUser.firstName = req.body.firstName,
 	newUser.lastName = req.body.lastName,
@@ -72,7 +71,7 @@ router.route('/register').post(function (req, res) {
 			if (err) {
 				res.send(err);
 			} else if (usr) {
-				res.json({ message: 'A user already has this email address' });
+				res.json({ errorMsg: 'A user already has this email address' });
 			} else {
 				newUser.save(function (err) {
 					if (err) {

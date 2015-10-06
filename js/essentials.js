@@ -21,3 +21,7 @@ function checkIfUserIsLoggedIn () {
         isLoggedIn = true;
     }
 };
+
+function storeToken (token) {
+    localStorage.setItem('token', token);
+};

@@ -26,9 +26,4 @@ angular.module('Node-Social').controller('loginCtrl', ['$scope','$http', functio
         });
     };
 
-    function storeToken (token) {
-        localStorage.setItem('token', token);
-        console.log(localStorage.getItem('token'));
-    };
-
 }]);
