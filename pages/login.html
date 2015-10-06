@@ -1,19 +1,26 @@
 <br/>
 <br/>
 <br>
-<div class="container">
+<div class="container" ng-controller="loginCtrl">
 	<h1>Hello!</h1>
 	<h3>Please Login Below</h3>
-	<form>
+	<form ng-submit="submit()">
 		<div class="form-group">
 			<label for="loginemail">Enter your login email</label>
-			<input type="email" class="form-control" id="loginemail" placeholder="Your Email">
+			<input type="email" class="form-control" id="loginemail" placeholder="Your Email" required ng-model="email">
 		</div>
 		<div class="form-group">
 			<label for="loginpass">Enter your password</label>
-			<input type="password" class="form-control" id="loginpass" placeholder="Password">
+			<input type="password" class="form-control" id="loginpass" placeholder="Password" required ng-model="password">
 		</div>
 
 		<button type="submit" class="btn btn-lg btn-success">Login</button>
+
+		<div ng-show="token" class="alert alert-success" role="alert">
+            <b>Success! Your token is: </b> {{ token }} <b>Please wait to navigate to control panel.</b>
+        </div>
+        <div ng-show="errorMsg" class="alert alert-danger" role="alert">
+            {{ errorMsg }}
+        </div>
 	</form>
 </div>

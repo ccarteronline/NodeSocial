@@ -47,7 +47,6 @@ angular.module('sampleApp').controller('SampleCtrl', ['$scope', '$http', functio
                 checkIfUserIsLoggedIn();
                 $scope.token = data.token;
             }
-            
             $scope.errorMsg = data.message;
 
         }).error(function (data, status, headers, config) {

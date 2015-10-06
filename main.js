@@ -45,6 +45,10 @@ app.route('/signup').get(function (req, res) {
 	res.redirect('/#/signup');
 });
 
+app.route('/control-panel').get(function (req, res) {
+	res.redirect('/#/control-panel');
+});
+
 //register a user
 router.route('/register').post(function (req, res) {
 	var foundUser = false;
@@ -131,10 +135,10 @@ router.post('/login', function (req, res) {
 		if (err) {
 			res.send(err);
 		} else if (!usr) {
-			res.json({ message: 'Incorrect email or password.'});
+			res.json({ errorMsg: 'Incorrect email or password.'});
 		} else {
 			var newToken = buildUserTokenWith(email, password);
-			res.json({ message: newToken });
+			res.json({ token: newToken });
 		}
 	});
 });
