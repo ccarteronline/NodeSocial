@@ -12,7 +12,7 @@ function displayAuthUserNav () {
 
 function killToken () {
     localStorage.removeItem('token');
-    window.location = '/login';
+    window.location = '/';
 };
 
 function checkIfUserIsLoggedIn () {

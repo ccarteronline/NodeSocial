@@ -8,7 +8,12 @@
         {{ authContent }}
     </div> -->
     <div class="feed">
-        <input type="text" class="form-control searchInput" placeholder="Search"/><button type="submit" class="btn btn-md btn-success searchBtn">Search</button>
+        <input type="text" class="form-control searchInput" placeholder="Search"/>
+        <button type="submit" class="btn btn-md btn-success searchBtn">Search</button>
+        <div class="followBtns">
+            <button type="submit" class="btn btn-xs btn-warning searchBtn">Following <b>0</b></button>
+            <button type="submit" class="btn btn-xs btn-warning searchBtn">Followers <b>0</b></button>
+        </div>
         <br/>
         <br/>
         <h4>Feed:</h4>
@@ -66,14 +71,10 @@
         <a class="btn btn-success midButton" href="#" role="button">View details »</a>
     </div>
 
-    <div class="leftQuickLinksPanel">
-        <ul class="list-group">
-            <li class="list-group-item"><a href="#">Some Link</a></li>
-            <li class="list-group-item"><a href="#">Some Link</a></li>
-            <li class="list-group-item"><a href="#">Some Link</a></li>
-            <li class="list-group-item"><a href="#">Some Link</a></li>
-            <li class="list-group-item"><a href="#">Some Link</a></li>
-            <li class="list-group-item"><a href="#">Some Link</a></li>
-        </ul>
+    <div class="leftQuickLinksPanel list-group">
+        <a href="#" class="list-group-item active">Feed</a>
+        <a href="#" class="list-group-item">My Profile</a>
+        <a href="#" class="list-group-item">Recent Views <span class="badge">0</span></a>
+        <a href="#" class="list-group-item">Messages <span class="badge">0</span></a>
     </div>
 </div>
