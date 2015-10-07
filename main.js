@@ -77,7 +77,7 @@ router.route('/register').post(function (req, res) {
 					if (err) {
 						res.send(err);
 					} else {
-						res.json({ message: 'successfully registered user!' });
+						res.json({ message: 'Registration Successfull! Please login' });
 					}
 				});
 			}
@@ -178,7 +178,8 @@ function authenticateUser (token, callback) {
 	var passPiece = token.substr(32, 32);
 	var loginDate = token.substr(64,64);
 	loginDate = moment().diff(loginDate, 'hours');
-	var timeLimit = 24;
+	console.log('What is the time? ', loginDate);
+	var timeLimit = 10;
 	var preparedUserSearch = {
 		tokenPiece: firstPiece,
 		password: passPiece
