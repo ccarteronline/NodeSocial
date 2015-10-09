@@ -15,66 +15,39 @@
             <button type="submit" class="btn btn-xs btn-warning searchBtn">Followers <b>0</b></button>
         </div>
         <br/>
-        <br/>
-        <h4>Feed:</h4>
-
-        <div class="media">
-            <div class="media-left">
-                <a href="#">
-                    <img class="media-object" data-src="holder.js/64x64" alt="64x64" src="img/64square.svg" data-holder-rendered="true" style="width: 64px; height: 64px;">
-                </a>
-            </div>
-            <div class="media-body">
-                <h4 class="media-heading">Top aligned media</h4>
-                <p>Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin commodo. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis. Fusce condimentum nunc ac nisi vulputate fringilla. Donec lacinia congue felis in faucibus.</p>
-            </div>
-        </div>
-        <div class="media">
-            <div class="media-left">
-                <a href="#">
-                    <img class="media-object" data-src="holder.js/64x64" alt="64x64" src="img/64square.svg" data-holder-rendered="true" style="width: 64px; height: 64px;">
-                </a>
-            </div>
-            <div class="media-body">
-                <h4 class="media-heading">Top aligned media</h4>
-                <p>Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin commodo. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis. Fusce condimentum nunc ac nisi vulputate fringilla. Donec lacinia congue felis in faucibus.</p>
-            </div>
-        </div>
-        <div class="media">
-            <div class="media-left">
-                <a href="#">
-                    <img class="media-object" data-src="holder.js/64x64" alt="64x64" src="img/64square.svg" data-holder-rendered="true" style="width: 64px; height: 64px;">
-                </a>
-            </div>
-            <div class="media-body">
-                <h4 class="media-heading">Top aligned media</h4>
-                <p>Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin commodo. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis. Fusce condimentum nunc ac nisi vulputate fringilla. Donec lacinia congue felis in faucibus.</p>
-            </div>
-        </div>
-        <div class="media">
-            <div class="media-left">
-                <a href="#">
-                    <img class="media-object" data-src="holder.js/64x64" alt="64x64" src="img/64square.svg" data-holder-rendered="true" style="width: 64px; height: 64px;">
-                </a>
-            </div>
-            <div class="media-body">
-                <h4 class="media-heading">Top aligned media</h4>
-                <p>Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin commodo. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis. Fusce condimentum nunc ac nisi vulputate fringilla. Donec lacinia congue felis in faucibus.</p>
-            </div>
-        </div>
+        <div ng-include="contentTab"></div>
     </div>
 
     <div class= "leftImagePanel">
         <h3>Welcome: FirstName</h3>
         <p><img class="img-circle" src="img/defaultPic.jpg" alt="Generic placeholder image" width="140" height="140"></p>
-        <a class="btn btn-success midButton" href="#" role="button">View details »</a>
-        <a class="btn btn-success midButton" href="#" role="button">View details »</a>
+        <a class="btn btn-success midButton" href="#" data-toggle="modal" data-target="#changePicture">Change Picture</a>
+        <a class="btn btn-success midButton" href="#" role="button">Update Settings</a>
     </div>
 
     <div class="leftQuickLinksPanel list-group">
-        <a href="#" class="list-group-item active">Feed</a>
-        <a href="#" class="list-group-item">My Profile</a>
-        <a href="#" class="list-group-item">Recent Views <span class="badge">0</span></a>
-        <a href="#" class="list-group-item">Messages <span class="badge">0</span></a>
+        <a href="#" ng-click="showTab('feed')" class="list-group-item" ng-class="feed">Feed</a>
+        <a href="#" ng-click="showTab('profile')" class="list-group-item" ng-class="profile">My Profile</a>
+        <a href="#" ng-click="showTab('recents')" class="list-group-item" ng-class="recents">Recent Views <span class="badge">0</span></a>
+        <a href="#" ng-click="showTab('messages')" class="list-group-item" ng-class="messages">Messages <span class="badge">0</span></a>
+    </div>
+</div>
+
+<!-- Change Picture -->
+<div class="modal fade" id="changePicture" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title" id="myModalLabel">Change your profile picture</h4>
+            </div>
+        <div class="modal-body">
+        ...
+        </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary">Save changes</button>
+            </div>
+        </div>
     </div>
 </div>
