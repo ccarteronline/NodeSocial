@@ -1,4 +1,7 @@
 var express = require('express');
+var fs = require('fs');
+var multer = require('multer');
+var upload = multer({ dest: 'uploads'});
 var app = express();
 var http = require('http').Server(app);
 var io = require('socket.io')(http);
@@ -12,6 +15,7 @@ var moment = require('moment');
 var _ = require('lodash');
 var port = (process.env.PORT || 9000);
 var router = express.Router();
+
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
@@ -78,6 +82,7 @@ router.route('/register').post(function (req, res) {
 						res.send(err);
 					} else {
 						res.json({ message: 'Registration Successfull! Please login' });
+						createUserDirectory(newUser.email);
 					}
 				});
 			}
@@ -133,7 +138,7 @@ router.post('/login', function (req, res) {
 		if (err) {
 			res.send(err);
 		} else if (!usr) {
-			res.json({ errorMsg: 'Incorrect email or password.'});
+			res.json({ errorMsg: 'Incorrect email or password.' });
 		} else {
 			var newToken = buildUserTokenWith(email, password);
 			res.json({ token: newToken });
@@ -148,6 +153,39 @@ router.post('/destory', function (req, res) {
 		res.json({ message: 'All the messages and admins dropped in: test' });
 	});
 });
+
+// router.post('/uploadPhoto', upload.single('avatar') function (req, res) {
+// 	console.log(req.file);
+//     console.log('path: ', req.file.path);
+//     var newPath = req.file.path + req.file.originalname;
+//     //console.log('body: ', req.body);
+//     fs.readFile(req.file.path, function (err, data) {
+//         fs.writeFile(newPath, data, function (err) {
+//             res.json({ message: 'file successfully uploaded' });
+//         });
+//     });
+// });
+
+
+// app.post('/upload', upload.single('myFile'), function (req, res, next) {
+//     console.log(req.file);
+//     console.log('path: ', req.file.path);
+//     var newPath = req.file.path + req.file.originalname;
+//     //console.log('body: ', req.body);
+//     fs.readFile(req.file.path, function (err, data) {
+//         fs.writeFile(newPath, data, function (err) {
+//             res.json({ message: 'file successfully uploaded' });
+//         });
+//     });
+// });
+function createUserDirectory(withEmail){
+	fs.mkdir(('users/' + withEmail), function (err) {
+		if (err) {
+			return console.error(err);
+		}
+        console.log('created User directory');
+    });
+};
 
 function displaySortedUsr (usr) {
 	return _.pick(usr, 'id', 'firstName', 'lastName', 'email', 'creationDate', 'isActive' ,'token_1', 'tokenPiece', 'tokenTime');
