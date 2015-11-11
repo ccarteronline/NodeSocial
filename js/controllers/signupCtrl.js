@@ -3,11 +3,14 @@ angular.module('Node-Social').controller('signupCtrl', ['$scope','$http', functi
         var registerObj = {
             'firstName': $scope.fName,
             'lastName': $scope.lName,
+            'gender': $scope.gender,
             'email': $scope.email,
             'password': $scope.password
         }
 
-        if ($scope.checkToAgree) {
+        if (!registerObj.gender) {
+            $scope.errorMsg = 'You must select a gender';
+        } else if ($scope.checkToAgree) {
             registerUser(registerObj);
         } else {
             $scope.errorMsg = 'You must check to agree the terms.';

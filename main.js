@@ -59,6 +59,7 @@ router.route('/register').post(function (req, res) {
 	newUser.firstName = req.body.firstName,
 	newUser.lastName = req.body.lastName,
 	newUser.email = req.body.email,
+	newUser.gender = req.body.gender,
 	newUser.password = crypto.createHash('md5').update(req.body.password).digest('hex'),
 	newUser.creationDate = moment().format();
 	newUser.isActive = false;
@@ -188,7 +189,7 @@ function createUserDirectory(withEmail){
 };
 
 function displaySortedUsr (usr) {
-	return _.pick(usr, 'id', 'firstName', 'lastName', 'email', 'creationDate', 'isActive' ,'token_1', 'tokenPiece', 'tokenTime');
+	return _.pick(usr, 'id', 'firstName', 'lastName', 'gender','email', 'creationDate', 'isActive' ,'token_1', 'tokenPiece', 'tokenTime');
 };
 
 function buildUserTokenWith (email, pass){
