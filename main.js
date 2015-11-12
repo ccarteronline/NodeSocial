@@ -21,7 +21,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
 app.use('/api', router);
-app.use(express.static(__dirname + ''));
+app.use(express.static(__dirname));
 
 io.on('connection', function (socket) {
 	console.log('A user is on our site!');
@@ -119,11 +119,15 @@ router.get('/user/:id', function (req, res) {
 
 // This route will be used for all future requests for the webpage for getting data.
 // this will check for the users token and then display the content accordingly if it is successful.
-router.get('/test-content', function (req, res) {
+router.get('/getUserContent', function (req, res) {
 	//Authenticate the user before sending in of the correct data
 	authenticateUser(req.headers.token, function (stat) {
 		if (stat) {
-			res.json({ message: 'Authenticated, send data as such'});
+			var data = {
+				message: 'Authenticated, send data as such',
+				email: stat
+			};
+			res.json(data);
 		} else {
 			res.json({ message: false });
 		}
@@ -155,7 +159,11 @@ router.post('/destory', function (req, res) {
 	});
 });
 
-// router.post('/uploadPhoto', upload.single('avatar') function (req, res) {
+
+// router.post('/uploadPhoto', function () {
+// 	console.log('Something');
+// });
+// router.post('/uploadPhoto', upload.single('myFile'), function (req, res) {
 // 	console.log(req.file);
 //     console.log('path: ', req.file.path);
 //     var newPath = req.file.path + req.file.originalname;
@@ -168,19 +176,33 @@ router.post('/destory', function (req, res) {
 // });
 
 
-// app.post('/upload', upload.single('myFile'), function (req, res, next) {
-//     console.log(req.file);
-//     console.log('path: ', req.file.path);
-//     var newPath = req.file.path + req.file.originalname;
-//     //console.log('body: ', req.body);
-//     fs.readFile(req.file.path, function (err, data) {
-//         fs.writeFile(newPath, data, function (err) {
-//             res.json({ message: 'file successfully uploaded' });
-//         });
-//     });
+app.post('/uploadPhoto/:email', upload.single('myFile'), function (req, res, next) {
+    //console.log(req.file);
+    //console.log('path: ', req.file.path);
+    upload = multer({ dest: __dirname + 'users/' + req.params.email });
+    req.file.path = ('users/' + req.params.email + '/');
+    var newPath = req.file.path + req.file.originalname;
+    console.log('path: ', newPath);
+    fs.readFile(req.file.path, function (err, data) {
+        fs.writeFile(newPath, data, function (err) {
+            res.json({ message: 'file successfully uploaded' });
+        });
+    });
+});
+
+// app.post('/uploadPhoto/:email', function (req, res, next) {
+// 	console.log('Hello: ', req.params.email);
+// 	//console.log(res.hello);
 // });
-function createUserDirectory(withEmail){
-	fs.mkdir(('users/' + withEmail), function (err) {
+
+function changePhotoDirectory (email) {
+
+	upload = multer({ dest: './users/' + email });
+	return upload.single('myFile');
+};
+
+function createUserDirectory (withEmail) {
+	fs.mkdir(('users/' + withEmail), 0777, function (err) {
 		if (err) {
 			return console.error(err);
 		}
@@ -230,7 +252,7 @@ function authenticateUser (token, callback) {
 		} else if (u === null) {
 			return callback(false);
 		} else if (loginDate <= timeLimit) {
-			return callback(true);
+			return callback(u.email);
 		} else {
 			return callback(false);
 		}
