@@ -159,46 +159,35 @@ router.post('/destory', function (req, res) {
 	});
 });
 
-
-// router.post('/uploadPhoto', function () {
-// 	console.log('Something');
-// });
-// router.post('/uploadPhoto', upload.single('myFile'), function (req, res) {
-// 	console.log(req.file);
-//     console.log('path: ', req.file.path);
-//     var newPath = req.file.path + req.file.originalname;
-//     //console.log('body: ', req.body);
-//     fs.readFile(req.file.path, function (err, data) {
-//         fs.writeFile(newPath, data, function (err) {
-//             res.json({ message: 'file successfully uploaded' });
-//         });
-//     });
-// });
-
-
 app.post('/uploadPhoto/:email', upload.single('myFile'), function (req, res, next) {
-    //console.log(req.file);
-    //console.log('path: ', req.file.path);
-    upload = multer({ dest: __dirname + 'users/' + req.params.email });
-    req.file.path = ('users/' + req.params.email + '/');
-    var newPath = req.file.path + req.file.originalname;
-    console.log('path: ', newPath);
+	console.log('what is req temp file name? ', req.file.filename);
+	var tempFileName = req.file.filename;
+    var mainImgPath = req.file.path + req.file.originalname;
+	var email = req.params.email;
+	var usersImagePath = ('users/' + email + '/' + req.file.originalname);
+	
     fs.readFile(req.file.path, function (err, data) {
-        fs.writeFile(newPath, data, function (err) {
-            res.json({ message: 'file successfully uploaded' });
+        fs.writeFile(mainImgPath, data, function (err) {
+			
+			fs.unlink(('uploads/' + tempFileName), function (err) {
+				if (err) throw err; 
+				//
+				fs.rename(mainImgPath, usersImagePath, function (err) {
+					if (err) throw err;
+					console.log('rename complete');
+					res.json({ message: 'file successfully uploaded' });
+				});
+			});
         });
     });
 });
 
-// app.post('/uploadPhoto/:email', function (req, res, next) {
-// 	console.log('Hello: ', req.params.email);
-// 	//console.log(res.hello);
-// });
-
-function changePhotoDirectory (email) {
-
-	upload = multer({ dest: './users/' + email });
-	return upload.single('myFile');
+function movePhotoToUsersDirectory (oldPath, newPath) {
+	fs.rename(oldPath, newPath, function (err) {
+		if (err) throw err;
+		console.log('rename complete');
+		return { message: 'file successfully uploaded' };
+	});
 };
 
 function createUserDirectory (withEmail) {
